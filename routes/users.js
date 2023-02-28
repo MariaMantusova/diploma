@@ -7,3 +7,5 @@ const {
 
 router.get('/users/me', auth, getMyInfo);
 router.patch('/users/me', auth, changeInfo);
+
+module.exports = router;

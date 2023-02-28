@@ -5,4 +5,6 @@ const { getSavedMovies, createMovie, deleteMovie } = require('../controllers/mov
 
 router.get('/movies', auth, getSavedMovies);
 router.post('/movies', auth, createMovie);
-router.delete('/movies/_id', auth, deleteMovie);
+router.delete('/movies/:_id', auth, deleteMovie);
+
+module.exports = router;
