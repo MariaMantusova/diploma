@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { login, createUser } = require('./controllers/users');
 const NotFoundError = require('./errors/NotFoundError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
@@ -26,6 +27,8 @@ const { PORT = 3000 } = process.env;
 
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+
+app.use(requestLogger);
 
 app.use(helmet());
 app.use(limiter);
@@ -68,6 +71,7 @@ app.use('/', userRouter);
 app.use('/', movieRouter);
 router.all('*', (req, res, next) => next(new NotFoundError('Страница не найдена')));
 
+app.use(errorLogger);
 app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
