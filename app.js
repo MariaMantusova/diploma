@@ -27,7 +27,13 @@ app.use(helmet());
 app.use(limiter);
 app.use(bodyParser.json());
 
-app.post('/signin', login);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+    name: Joi.string().required().min(2).max(30),
+  }),
+}), login);
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -38,6 +44,8 @@ app.post('/signup', celebrate({
 app.use('/', userRouter);
 app.use('/', movieRouter);
 router.all('*', (req, res, next) => next(new NotFoundError('Страница не найдена')));
+
+app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
