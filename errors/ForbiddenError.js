@@ -3,7 +3,7 @@ class ForbiddenError extends Error {
     super();
     this.name = 'ForbiddenError';
     this.statusCode = 403;
-    this.message = 'Вы не можете удалить данный фильм, так как не являетесь его владель';
+    this.message = 'Вы не можете удалить данный фильм, так как не являетесь его владельцем';
   }
 }
 
