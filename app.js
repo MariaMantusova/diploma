@@ -26,9 +26,10 @@ const userRouter = require('./routes/users');
 const movieRouter = require('./routes/movies');
 
 const { PORT = 3000 } = process.env;
+const { MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+mongoose.connect(MONGO_URL);
 
 app.use(requestLogger);
 
@@ -76,8 +77,12 @@ router.all('*', (req, res, next) => next(new NotFoundError('Страница н�
 app.use(errorLogger);
 app.use(errors());
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
+app.use((
+  err,
+  req,
+  res,
+  next,
+) => {
   const { statusCode = 500, message } = err;
 
   res
