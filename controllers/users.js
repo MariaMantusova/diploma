@@ -18,9 +18,9 @@ const changeInfo = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      if (email.unique(false)) {
-        throw ExistingEmailError();
-      }
+    //   if (email.unique(false)) {
+    //     throw ExistingEmailError();
+    //   }
       res.status(200).send(user);
     })
     .catch((err) => {
