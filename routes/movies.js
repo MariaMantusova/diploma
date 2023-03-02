@@ -7,22 +7,22 @@ const { getSavedMovies, createMovie, deleteMovie } = require('../controllers/mov
 router.get('/movies', auth, getSavedMovies);
 router.post('/movies', auth, celebrate({
   body: Joi.object().keys({
-    country: Joi.string().min(2).max(30).required(),
-    director: Joi.string().min(2).max(30).required(),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
     duration: Joi.number().required(),
     year: Joi.string().min(4).max(4).required(),
-    description: Joi.string().min(2).max(30).required(),
-    image: Joi.string().min(2).pattern(/^https?:\/\/[a-zA-Z0-9\S]+$/),
-    trailerLink: Joi.string().min(2).pattern(/^https?:\/\/[a-zA-Z0-9\S]+$/),
-    thumbnail: Joi.string().min(2).pattern(/^https?:\/\/[a-zA-Z0-9\S]+$/),
-    movieId: Joi.string().alphanum().length(24),
-    nameRU: Joi.string().min(2).max(30).required(),
-    nameEN: Joi.string().min(2).max(30).required(),
+    description: Joi.string().required(),
+    image: Joi.string().pattern(/^https?:\/\/[a-zA-Z0-9\S]+$/).required(),
+    trailerLink: Joi.string().pattern(/^https?:\/\/[a-zA-Z0-9\S]+$/).required(),
+    thumbnail: Joi.string().pattern(/^https?:\/\/[a-zA-Z0-9\S]+$/).required(),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 }), createMovie);
 router.delete('/movies/:_id', auth, celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().alphanum().length(24),
+    _id: Joi.objectId(),
   }),
 }), deleteMovie);
 
