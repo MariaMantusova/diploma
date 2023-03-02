@@ -1,5 +1,4 @@
 const express = require('express');
-const router = require('express').Router();
 const rateLimit = require('express-rate-limit');
 const { celebrate, Joi, errors } = require('celebrate');
 const bodyParser = require('body-parser');
@@ -71,7 +70,7 @@ app.post('/signup', celebrate({
 }), createUser);
 app.use('/', userRouter);
 app.use('/', movieRouter);
-router.all('*', (req, res, next) => next(new NotFoundError('Страница не найдена')));
+app.use('*', (req, res, next) => next(new NotFoundError('Страница не найдена')));
 
 app.use(errorLogger);
 app.use(errors());

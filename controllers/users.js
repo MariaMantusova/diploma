@@ -13,13 +13,15 @@ const getMyInfo = (req, res, next) => User.findById(req.user._id)
   .catch(next);
 
 const changeInfo = (req, res, next) => {
-  const { name } = req.body;
+  const { name, email } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.code === 11000) {
+        next(new ExistingEmailError());
+      } else if (err.name === 'CastError') {
         next(new ValidationError());
       } else {
         next(err);
@@ -37,7 +39,6 @@ const createUser = ((req, res, next) => {
       name, email, password: hash,
     }))
     .then((user) => res.status(200).send(user.toObject({
-      // eslint-disable-next-line no-shadow
       transform: (doc, res) => {
         delete res.password;
         return res;
