@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { login, createUser } = require('./controllers/users');
 const NotFoundError = require('./errors/NotFoundError');
+const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
@@ -70,7 +71,7 @@ app.post('/signup', celebrate({
 }), createUser);
 app.use('/', userRouter);
 app.use('/', movieRouter);
-app.use('*', (req, res, next) => next(new NotFoundError('Страница не найдена')));
+app.use('*', auth, (req, res, next) => next(new NotFoundError('Страница не найдена')));
 
 app.use(errorLogger);
 app.use(errors());
