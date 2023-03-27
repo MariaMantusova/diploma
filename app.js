@@ -19,7 +19,7 @@ const limiter = rateLimit({
 const allowedCors = [
   'http://aboutFilms.nomoredomains.work',
   'https://aboutFilms.nomoredomains.work',
-  'localhost:3000',
+  'http://localhost:3000',
 ];
 
 const userRouter = require('./routes/users');
