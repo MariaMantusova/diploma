@@ -17,8 +17,8 @@ const limiter = rateLimit({
 });
 
 const allowedCors = [
-  'http://api.aboutFilms.nomoredomains.work',
-  'https://api.aboutFilms.nomoredomains.work',
+  'http://aboutFilms.nomoredomains.work',
+  'https://aboutFilms.nomoredomains.work',
   'localhost:3000',
 ];
 
