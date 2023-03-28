@@ -16,11 +16,11 @@ const limiter = rateLimit({
   max: 100,
 });
 
-const allowedCors = [
-  'http://aboutFilms.nomoredomains.work',
-  'https://aboutFilms.nomoredomains.work',
-  'localhost:3000',
-];
+// const allowedCors = [
+//   'http://aboutFilms.nomoredomains.work',
+//   'https://aboutFilms.nomoredomains.work',
+//   'localhost:3000',
+// ];
 
 const userRouter = require('./routes/users');
 const movieRouter = require('./routes/movies');
@@ -37,15 +37,13 @@ app.use(helmet());
 app.use(limiter);
 app.use(bodyParser.json());
 app.use('/', (req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
+  const {origin} = req.headers;
+  const {method} = req;
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
 
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', 'true');
-  }
+  res.header('Access-Control-Allow-Origin', origin);
+  res.header('Access-Control-Allow-Credentials', 'true');
 
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
